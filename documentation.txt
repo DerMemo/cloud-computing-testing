@@ -1,0 +1,50 @@
+Design Decisions
+
+    Resource Structure:
+        Resource Group: All Azure resources are organized into a single resource group to simplify management and billing.
+        App Service Plan: The free tier (F1) was chosen to minimize costs, making it suitable for testing and development purposes.
+        Web App: A basic Azure Web App is provisioned to host a Python-based application (PYTHON|3.8) for demonstration and deployment.
+        Application Insights: (Optional) Added for monitoring and telemetry to track application performance and diagnose issues.
+
+    Infrastructure Management with Pulumi:
+        Pulumi was selected for managing infrastructure because it enables declarative and repeatable resource configurations using Python.
+        Pulumi outputs are used to provide key details (e.g., Web App URL) for seamless integration with other workflows or automation.
+
+    Testing Strategy:
+        Unit Tests: Validate individual resource configurations, such as the App Service Plan tier.
+        Integration Tests: Verify relationships between resources, ensuring the Web App is correctly associated with the App Service Plan.
+        End-to-End Tests: Confirm the full stack deploys successfully and that the Web App is accessible.
+
+    Scalability Considerations:
+        The design ensures resources can scale to higher tiers or larger capacities with minimal changes to the infrastructure code.
+        Monitoring with Application Insights supports proactive scaling decisions based on application usage and performance metrics.
+
+
+    Scaling Beyond the Free Tier:
+
+If the application traffic grows or requires higher compute/memory:
+
+    App Service Plan:
+        Upgrade to a paid tier, e.g., Basic Plan (B1):
+            Estimated cost: ~$13.14/month (for 1 instance, 1.75 GB RAM, and 10 GB storage).
+
+    Web App Traffic:
+        Bandwidth usage: $0.087/GB (first 5 GB are free).
+
+    Application Insights:
+        Additional telemetry ingestion beyond the free 1 GB:
+            Estimated cost: $2.30 per additional GB.
+
+Example Scenario:
+
+    Scaling for Medium Traffic:
+        Basic App Service Plan (B1): $13.14/month.
+        Application Insights: 3 GB data ingestion: $4.60/month.
+        Bandwidth (10 GB beyond free): $0.87/month.
+        Total Estimated Cost: ~$18.61/month.
+
+    Scaling for High Traffic:
+        Standard App Service Plan (S1): $73.00/month.
+        Application Insights: 10 GB data ingestion: $20.70/month.
+        Bandwidth (50 GB beyond free): $4.35/month.
+        Total Estimated Cost: ~$98.05/month.
